@@ -5,7 +5,7 @@
   
 
 
-<html class="theme-next muse use-motion" lang="zh-Hans">
+<html class="theme-next gemini use-motion" lang="zh-Hans">
 <head>
   <meta charset="UTF-8"/>
 <meta http-equiv="X-UA-Compatible" content="IE=edge" />
@@ -96,9 +96,9 @@
   var NexT = window.NexT || {};
   var CONFIG = {
     root: '/',
-    scheme: 'Muse',
+    scheme: 'Gemini',
     version: '5.1.4',
-    sidebar: {"position":"left","display":"post","offset":12,"b2t":false,"scrollpercent":false,"onmobile":false},
+    sidebar: {"position":"left","display":"post","offset":12,"b2t":true,"scrollpercent":true,"onmobile":false},
     fancybox: true,
     tabs: true,
     motion: {"enable":true,"async":false,"transition":{"post_block":"fadeIn","post_header":"slideDownIn","post_body":"slideDownIn","coll_header":"slideLeftIn","sidebar":"slideUpIn"}},
@@ -237,7 +237,7 @@
     <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
       <meta itemprop="name" content="Jasper-le">
       <meta itemprop="description" content="">
-      <meta itemprop="image" content="/images/avatar.gif">
+      <meta itemprop="image" content="/images/image1.jpeg">
     </span>
 
     <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
@@ -302,15 +302,19 @@
 
       
         
-          
-            <p>最近写了一个关于介绍中国传统颜色网页，纯前端的那种。其中用到了json，这是我之前没有涉及过的知识，于是找视频+度娘自学了一下。说一下自己的体验吧。</p>
+          <p>最近写了一个关于介绍中国传统颜色网页，纯前端的那种。其中用到了json，这是我之前没有涉及过的知识，于是找视频+度娘自学了一下。说一下自己的体验吧。</p>
 <p>·Json相关概念</p>
 <p>1.Json是什么？<br>Json是一种轻量级的数据交换格式。以键/值的形式保存。易于人阅读和理解，同时也易于机器解析和生成。可以有效的提升网络传输率。json实际就是一个内容按照一定规则排列的字符串。</p>
 <p>2.Json可以用来干嘛？<br>服务器数据的交互<br>配置文件<br>手机数据交互<br>通俗的说就是可以保存数据和服务器间传递数据</p>
 <p>3.Json的序列化和反序列化<br>序列化：将对象转换成字节序列的过程<br>反序列化：将字节序列恢复成对象的过程<br>通俗的说就是将对象变成字符串，字符串变成对象</p>
-<p>4.Json怎么用<br>使用Unity的原生Json库JsonUnitiliy,插件LitJson等。<br>下面贴出代码<br><img src="/2018/07/01/json使用初体验/json1.png" alt="avatar"></p>
-
-          
+<p>4.Json怎么用<br>使用Unity的原生Json库JsonUnitiliy,插件LitJson等。<br>下面贴出代码<br><img src="/2018/07/01/json使用初体验/json1.png" alt="avatar"><br></p>
+          <!--noindex-->
+          <div class="post-button text-center">
+            <a class="btn" href="/2018/07/01/json使用初体验/#more" rel="contents">
+              阅读全文 &raquo;
+            </a>
+          </div>
+          <!--/noindex-->
         
       
     </div>
@@ -362,7 +366,7 @@
     <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
       <meta itemprop="name" content="Jasper-le">
       <meta itemprop="description" content="">
-      <meta itemprop="image" content="/images/avatar.gif">
+      <meta itemprop="image" content="/images/image1.jpeg">
     </span>
 
     <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
@@ -499,6 +503,10 @@
         <div class="site-overview">
           <div class="site-author motion-element" itemprop="author" itemscope itemtype="http://schema.org/Person">
             
+              <img class="site-author-image" itemprop="image"
+                src="/images/image1.jpeg"
+                alt="Jasper-le" />
+            
               <p class="site-author-name" itemprop="name">Jasper-le</p>
               <p class="site-description motion-element" itemprop="description">我不喜欢这世界，我只喜欢你</p>
           </div>
@@ -549,6 +557,13 @@
       
 
       
+        <div class="back-to-top">
+          <i class="fa fa-arrow-up"></i>
+          
+            <span id="scrollpercent"><span>0</span>%</span>
+          
+        </div>
+      
 
     </div>
   </aside>
@@ -578,8 +593,18 @@
 
 
 
-  <div class="theme-info">主题 &mdash; <a class="theme-link" target="_blank" href="https://github.com/iissnan/hexo-theme-next">NexT.Muse</a> v5.1.4</div>
+  <div class="theme-info">主题 &mdash; <a class="theme-link" target="_blank" href="https://github.com/iissnan/hexo-theme-next">NexT.Gemini</a> v5.1.4</div>
 
+<div>
+<script async src="https://dn-lbstatics.qbox.me/busuanzi/2.3/busuanzi.pure.mini.js"></script>
+<span id="busuanzi_container_site_pv" style='display:none'>
+    本站总访问量 <span id="busuanzi_value_site_pv"></span> 次
+    <span class="post-meta-divider">|</span>
+</span>
+<span id="busuanzi_container_site_uv" style='display:none'>
+    有<span id="busuanzi_value_site_uv"></span>人看过我的博客啦
+</span>
+</div>
 
 
 
@@ -595,11 +620,6 @@
       </div>
     </footer>
 
-    
-      <div class="back-to-top">
-        <i class="fa fa-arrow-up"></i>
-        
-      </div>
     
 
     
@@ -677,6 +697,13 @@
 
   
   
+
+
+  <script type="text/javascript" src="/js/src/affix.js?v=5.1.4"></script>
+
+  <script type="text/javascript" src="/js/src/schemes/pisces.js?v=5.1.4"></script>
+
+
 
   
 
