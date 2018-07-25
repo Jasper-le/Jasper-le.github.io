@@ -1,0 +1,352 @@
+<!DOCTYPE html>
+<!--[if lte IE 8 ]>
+<html class="ie" xmlns="http://www.w3.org/1999/xhtml" xml:lang="en-US" lang="en-US">
+<![endif]-->
+<!--[if (gte IE 9)|!(IE)]><!-->
+<!--
+***************  *      *     *
+      8          *    *       *
+      8          *  *         *
+      8          **           *
+      8          *  *         *
+      8          *    *       *
+      8          *      *     *
+      8          *        *   ***********    -----Theme By Kieran(http://go.kieran.top)
+-->
+<html xmlns="http://www.w3.org/1999/xhtml" xml:lang="zh-CN" lang="zh-CN">
+<!--<![endif]-->
+
+<head>
+  <title>使用微信小程序开发逆波兰计算器——逆波兰表达式实现算法 | ZhaoLe&#39;s Blog</title>
+  <!-- Meta data -->
+    <meta http-equiv="Content-Type" content="text/html" charset="UTF-8" >
+    <meta http-equiv="X-UA-Compatible" content="IE=edge"/>
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <meta name="generator" content="ZhaoLe's Blog">
+    <meta name="author" content="Jasper-le">
+    <meta name="description" content="just for u" />
+    <meta name="keywords" content="" />
+
+    <!-- Favicon, (keep icon in root folder) -->
+    <link rel="Shortcut Icon" href="/img/favicon.ico" type="image/ico">
+
+    <link rel="alternate" href="/atom.xml" title="ZhaoLe&#39;s Blog" type="application/atom+xml">
+    <link rel="stylesheet" href="/css/all.css" media="screen" type="text/css">
+    
+    <link rel="stylesheet" href="/highlightjs/vs.css" type="text/css">
+    
+
+    <!--[if IE 8]>
+    <link rel="stylesheet" type="text/css" href="/css/ie8.css" />
+    <![endif]-->
+
+    <!-- jQuery | Load our jQuery, with an alternative source fallback to a local version if request is unavailable -->
+    <script src="/js/jquery-1.11.1.min.js"></script>
+    <script>window.jQuery || document.write('<script src="js/jquery-1.11.1.min.js"><\/script>')</script>
+
+    <!-- Load these in the <head> for quicker IE8+ load times -->
+    <!-- HTML5 shim and Respond.js IE8 support of HTML5 elements and media queries -->
+    <!--[if lt IE 9]>
+    <script src="/js/html5shiv.min.js"></script>
+    <script src="/js/respond.min.js"></script>
+    <![endif]-->
+
+  
+  
+  
+
+  <style>.col-md-8.col-md-offset-2.opening-statement img{display:none;}</style>
+</head>
+
+<!--
+<body class="post-template">
+-->
+<body id="index" class="lightnav animsition">
+
+      <!-- ============================ Off-canvas navigation =========================== -->
+
+    <div class="sb-slidebar sb-right sb-style-overlay sb-momentum-scrolling">
+        <div class="sb-close" aria-label="Close Menu" aria-hidden="true">
+            <img src="/img/close.png" alt="Close"/>
+        </div>
+        <!-- Lists in Slidebars -->
+        <ul class="sb-menu">
+            <li><a href="/" class="animsition-link" title="Home">Home</a></li>
+            <li><a href="/archives" class="animsition-link" title="archive">archives</a></li>
+            <!-- Dropdown Menu -->
+			 
+            <li>
+                <a class="sb-toggle-submenu">Works<span class="sb-caret"></span></a>
+                <ul class="sb-submenu">
+                    
+                        <li><a href="/" target="_BLANK" class="animsition-link">AAA</a></li>
+                    
+                        <li><a href="/atom.xml" target="_BLANK" class="animsition-link">BBB</a></li>
+                    
+                </ul>
+            </li>
+            
+            
+            
+            <li>
+                <a class="sb-toggle-submenu">Links<span class="sb-caret"></span></a>
+                <ul class="sb-submenu">
+                    
+                    <li><a href="http://go.kieran.top/" class="animsition-link">Jasper-le</a></li>
+                    
+                    <li><a href="http://domain.com/" class="animsition-link">Name</a></li>
+                    
+                </ul>
+            </li>
+            
+        </ul>
+        <!-- Lists in Slidebars -->
+        <ul class="sb-menu secondary">
+            
+            <li><a href="/about.html" class="animsition-link" title="about">About</a></li>
+            <li><a href="/atom.xml" class="animsition-link" title="rss">RSS</a></li>
+        </ul>
+    </div>
+    
+    <!-- ============================ END Off-canvas navigation =========================== -->
+
+    <!-- ============================ #sb-site Main Page Wrapper =========================== -->
+
+    <div id="sb-site">
+        <!-- #sb-site - All page content should be contained within this id, except the off-canvas navigation itself -->
+
+        <!-- ============================ Header & Logo bar =========================== -->
+
+        <div id="navigation" class="navbar navbar-fixed-top">
+            <div class="navbar-inner">
+                <div class="container">
+                    <!-- Nav logo -->
+                    <div class="logo">
+                        <a href="/" title="Logo" class="animsition-link">
+                         <img src="/img/logo.png" alt="Logo" width="35px;"/> 
+                        </a>
+                    </div>
+                    <!-- // Nav logo -->
+                    <!-- Info-bar -->
+                    <nav>
+                        <ul class="nav">
+                            <li><a href="/" class="animsition-link">ZhaoLe's Blog</a></li>
+                            <li class="nolink"><span>Always </span>Creative.</li>
+                            
+                            <li><a href="https://github.com/" title="Github" target="_blank"><i class="icon-github"></i></a></li>
+                            
+                            
+                            <li><a href="https://twitter.com/" title="Twitter" target="_blank"><i class="icon-twitter"></i></a></li>
+                            
+                            
+                            <li><a href="https://www.facebook.com/" title="Facebook" target="_blank"><i class="icon-facebook"></i></a></li>
+                            
+                            
+                            <li><a href="https://google.com/" title="Google-Plus" target="_blank"><i class="icon-google-plus"></i></a></li>
+                            
+                            
+                            <li><a href="http://weibo.com/" title="Sina-Weibo" target="_blank"><i class="icon-sina-weibo"></i></a></li>
+                            
+                            <li class="nolink"><span>Welcome!</span></li>
+                        </ul>
+                    </nav>
+                    <!--// Info-bar -->
+                </div>
+                <!-- // .container -->
+                <div class="learnmore sb-toggle-right">More</div>
+                <button type="button" class="navbar-toggle menu-icon sb-toggle-right" title="More">
+                <span class="sr-only">Toggle navigation</span>
+                <span class="icon-bar before"></span>
+                <span class="icon-bar main"></span>
+                <span class="icon-bar after"></span>
+                </button>
+            </div>
+            <!-- // .navbar-inner -->
+        </div>
+
+        <!-- ============================ Header & Logo bar =========================== -->
+
+
+      
+<section id="intro">
+    <div class="container">
+        <div class="row col-md-offset-2">
+            <div class="col-md-8">
+    			<span class="post-meta">
+      <time datetime="2018-07-24T02:47:36.000Z" itemprop="datePublished">
+          2018-07-24
+      </time>
+    
+    
+    | 
+    <a href='/tags/JS/'>JS</a>
+    
+    
+</span>
+                <h1>使用微信小程序开发逆波兰计算器——逆波兰表达式实现算法</h1>
+            </div>
+        </div>
+        <div class="col-md-8 col-md-offset-2">
+      		<p>下面将着重讲解如何实现计算器，使其可以进行小数、负数的加减乘除计算，并显示后缀表达式和计算结果给用户。</p>
+<h2 id="处理用户输入"><a href="#处理用户输入" class="headerlink" title="处理用户输入"></a>处理用户输入</h2><p>用户输入一长串的表达式，里面有数字，有加减乘除符号，有括号，我们应该把用户输入的表达式记录下来，并进行适当的划分，将数字和符号分开来，为后续的计算做准备</p>
+<p>首先我们在为每个按钮都设置一个data-value自定义属性，从而在后台知道用户按了哪一个键</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br></pre></td><td class="code"><pre><span class="line">&lt;view class=&quot;button_area&quot; bindtap=&apos;clickButton&apos;&gt;</span><br><span class="line">    &lt;view class=&quot;row&quot;&gt;</span><br><span class="line">      &lt;button class=&quot;row1-item button_item&quot; data-value=&quot;7&quot; hover-stay-time=&apos;120&apos;&gt;7&lt;/button&gt;</span><br><span class="line">      &lt;button class=&quot;row1-item button_item&quot; data-value=&quot;8&quot; hover-stay-time=&apos;120&apos;&gt;8&lt;/button&gt;</span><br><span class="line">      &lt;button class=&quot;row1-item button_item&quot; data-value=&quot;9&quot; hover-stay-time=&apos;120&apos;&gt;9&lt;/button&gt;</span><br><span class="line">      &lt;button class=&quot;row1-item button_item&quot; data-value=&quot;/&quot; hover-stay-time=&apos;120&apos;&gt;/&lt;/button&gt;</span><br><span class="line">      &lt;button class=&quot;row1-item button_item&quot; data-value=&quot;back&quot; hover-stay-time=&apos;120&apos;&gt;←&lt;/button&gt;</span><br><span class="line">    &lt;/view&gt;</span><br><span class="line">    &lt;view class=&quot;row&quot;&gt;</span><br><span class="line">      &lt;button class=&quot;row1-item button_item&quot; data-value=&quot;4&quot; hover-stay-time=&apos;120&apos;&gt;4&lt;/button&gt;</span><br><span class="line">      &lt;button class=&quot;row1-item button_item&quot; data-value=&quot;5&quot; hover-stay-time=&apos;120&apos;&gt;5&lt;/button&gt;</span><br><span class="line">      &lt;button class=&quot;row1-item button_item&quot; data-value=&quot;6&quot; hover-stay-time=&apos;120&apos;&gt;6&lt;/button&gt;</span><br><span class="line">      &lt;button class=&quot;row1-item button_item&quot; data-value=&quot;*&quot; hover-stay-time=&apos;120&apos;&gt;*&lt;/button&gt;</span><br><span class="line">      &lt;button class=&quot;row1-item button_item&quot; data-value=&quot;.&quot; hover-stay-time=&apos;120&apos;&gt;.&lt;/button&gt;</span><br><span class="line">    &lt;/view&gt;</span><br><span class="line">    &lt;button class=&quot;button_item equal&quot; data-value=&quot;=&quot; hover-stay-time=&apos;120&apos;&gt;=&lt;/button&gt;</span><br><span class="line">    &lt;view class=&quot;row short&quot;&gt;</span><br><span class="line">      &lt;button class=&quot;row1-item button_item&quot; data-value=&quot;1&quot; hover-stay-time=&apos;120&apos;&gt;1&lt;/button&gt;</span><br><span class="line">      &lt;button class=&quot;row1-item button_item&quot; data-value=&quot;2&quot; hover-stay-time=&apos;120&apos;&gt;2&lt;/button&gt;</span><br><span class="line">      &lt;button class=&quot;row1-item button_item&quot; data-value=&quot;3&quot; hover-stay-time=&apos;120&apos;&gt;3&lt;/button&gt;</span><br><span class="line">      &lt;button class=&quot;row1-item button_item&quot; data-value=&quot;-&quot; hover-stay-time=&apos;120&apos;&gt;-&lt;/button&gt;</span><br><span class="line">    &lt;/view&gt;</span><br><span class="line">    &lt;view class=&quot;row short&quot;&gt;</span><br><span class="line">      &lt;button class=&quot;row1-item button_item&quot; data-value=&quot;0&quot; hover-stay-time=&apos;120&apos;&gt;0&lt;/button&gt;</span><br><span class="line">      &lt;button class=&quot;row1-item button_item brace&quot; data-value=&quot;(&quot; hover-stay-time=&apos;120&apos;&gt;(&lt;/button&gt;</span><br><span class="line">      &lt;button class=&quot;row1-item button_item brace&quot; data-value=&quot;)&quot; hover-stay-time=&apos;120&apos;&gt;)&lt;/button&gt;</span><br><span class="line">      &lt;button class=&quot;row1-item button_item&quot; data-value=&quot;+&quot; hover-stay-time=&apos;120&apos;&gt;+&lt;/button&gt;</span><br><span class="line">    &lt;/view&gt;</span><br><span class="line">  &lt;/view&gt;</span><br></pre></td></tr></table></figure>
+<p>在js文件中，我们使用两个数组来保存用户输入的表达式，一个用于显示给用户看，一个用于实际计算，你也可以只使用一个数组，看个人喜好。</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br></pre></td><td class="code"><pre><span class="line">data: &#123;</span><br><span class="line">    expression:&#123;</span><br><span class="line">      ForCustomer:[],  //用于显示给用户，存储用户输入的数据</span><br><span class="line">      ForCompute:[]    //用于进行计算，存储转换后的输入数据</span><br><span class="line">    &#125;,</span><br><span class="line">    value:0,    //文本框的显示值</span><br><span class="line">  &#125;,</span><br></pre></td></tr></table></figure>
+<a id="more"></a>
+<p>下面我们就开始处理用户输入，主要在clickButton事件程序中，主要思路就是把用户每个输入都依次存入到ForCustomer中，而把数字和符号划分后的输入存入到ForCompute中。在进行表达式划分时，<strong>主要遵循以下原则：</strong></p>
+<p><strong>·</strong> 将表达式中的数字和符号分开，例如表达式是1<em>20-3+40，那么ForCustomer的值应该为`[‘1’,’</em>‘,’2’,’0’,’-‘,’3’,’+’,’4’,’0’]<code>，而ForCompute的值应该为</code>[‘1’,’*’,’20’,’-‘,’3’,’+’,’40’]<br>`</p>
+<p><strong>·</strong> <strong>小数点应该放置在数字中，而不是作为单独的符号</strong>，例如表达式是1.1+0.3，那么ForCompute的值应该为<code>[&#39;1.1&#39;,&#39;+&#39;,&#39;0.3&#39;]</code></p>
+<p><strong>·</strong> 当<strong>减号前面是左括号或者没有任何数字和符号时，应将其视为负号</strong>，例如表达式是<code>-3-5+（-6）</code>，那么ForCompute的值应该为<code>[&#39;-3&#39;,&#39;-&#39;,&#39;5&#39;,&#39;+&#39;,&#39;(&#39;,&#39;-6&#39;,&#39;)&#39;]</code></p>
+<p><strong>·</strong> 0前面没有数字或符号时，应不许输入，<strong>防止出现01+1这样的表达式</strong><br>当用户点击回退按钮时，应每次都弹出一个字符</p>
+<h3 id="下面就是clickButton的代码，对用户每次输入进行判定，执行相应的操作"><a href="#下面就是clickButton的代码，对用户每次输入进行判定，执行相应的操作" class="headerlink" title="下面就是clickButton的代码，对用户每次输入进行判定，执行相应的操作"></a>下面就是clickButton的代码，对用户每次输入进行判定，执行相应的操作</h3><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br><span class="line">43</span><br><span class="line">44</span><br><span class="line">45</span><br><span class="line">46</span><br><span class="line">47</span><br><span class="line">48</span><br><span class="line">49</span><br><span class="line">50</span><br><span class="line">51</span><br><span class="line">52</span><br><span class="line">53</span><br><span class="line">54</span><br><span class="line">55</span><br><span class="line">56</span><br><span class="line">57</span><br><span class="line">58</span><br><span class="line">59</span><br><span class="line">60</span><br><span class="line">61</span><br><span class="line">62</span><br><span class="line">63</span><br><span class="line">64</span><br><span class="line">65</span><br><span class="line">66</span><br><span class="line">67</span><br><span class="line">68</span><br><span class="line">69</span><br><span class="line">70</span><br><span class="line">71</span><br><span class="line">72</span><br><span class="line">73</span><br><span class="line">74</span><br><span class="line">75</span><br><span class="line">76</span><br><span class="line">77</span><br><span class="line">78</span><br></pre></td><td class="code"><pre><span class="line">clickButton: function(event)&#123;</span><br><span class="line">    var button_value = event.target.dataset.value,</span><br><span class="line">        show_value = &apos;&apos;,</span><br><span class="line">        result_value = &apos;none&apos;,</span><br><span class="line">        expression_show = this.data.expression.ForCustomer,</span><br><span class="line">        expression_value = this.data.expression.ForCompute,</span><br><span class="line">    var length = expression_value.length,</span><br><span class="line">        show_length = expression_show.length,</span><br><span class="line">        zero_flag = true;</span><br><span class="line">    if (button_value)&#123;</span><br><span class="line">        switch (button_value) &#123;</span><br><span class="line">          case &apos;back&apos;:  //用户点击后退删除按钮</span><br><span class="line">                if (show_length &gt;= 1)&#123;</span><br><span class="line">                      expression_show.pop();</span><br><span class="line">                      if (expression_value[length - 1].length &gt; 1 &amp;&amp; expression_value[length - 1] != &apos;ERROR&apos; &amp;&amp; expression_value[length - 1] != &apos;0不能做除数&apos;)&#123;</span><br><span class="line">                        expression_value[length - 1] = expression_value[length - 1].substr(0, expression_value  [length - 1].length -1);</span><br><span class="line">                      &#125;else&#123;</span><br><span class="line">                        expression_value.pop();</span><br><span class="line">                      &#125;</span><br><span class="line">                      if (show_length == 1 )&#123;</span><br><span class="line">                          show_value = &apos;0&apos;;</span><br><span class="line">                      &#125;</span><br><span class="line">                &#125;</span><br><span class="line">                break;</span><br><span class="line">          case &apos;=&apos;:  //用户点击等于按钮，进行计算</span><br><span class="line">                if (length &gt; 2)&#123;</span><br><span class="line">                    result_value = this.calculate(expression_value);</span><br><span class="line">                    if (result_value == &apos;zero&apos;)&#123;</span><br><span class="line">                        result_value = &apos;0不能做除数&apos;;</span><br><span class="line">                    &#125;else if (isNaN(result_value))&#123;  //若计算结果非数字，则出现错误</span><br><span class="line">                        result_value = &apos;ERROR&apos;;</span><br><span class="line">                    &#125;</span><br><span class="line">                &#125;</span><br><span class="line">                break;</span><br><span class="line">          default:  </span><br><span class="line">                if (isNaN(button_value))&#123;  //用户点击非数字按钮</span><br><span class="line">                    if (button_value == &apos;.&apos; &amp;&amp; !isNaN(expression_value[length - 1])) &#123;  //处理小数点问题</span><br><span class="line">                        expression_value[length - 1] += button_value;</span><br><span class="line">                    &#125; else &#123;</span><br><span class="line">                        expression_value.push(button_value);</span><br><span class="line">                    &#125;</span><br><span class="line">                &#125; else &#123;   //用户点击数字按钮</span><br><span class="line">                    if (expression_value[length - 1] == &apos;.&apos; || ! isNaN(expression_value[length - 1]))&#123;  //处理小数点问题</span><br><span class="line">                        expression_value[length - 1] += button_value;</span><br><span class="line">                    &#125; else if (expression_value[length - 1] == &apos;-&apos; &amp;&amp; (length &lt; 2 || expression_value[length - 2] == &apos;(&apos;)) &#123;  //处理负号问题</span><br><span class="line">                        expression_value[length - 1] += button_value;</span><br><span class="line"></span><br><span class="line">                    &#125; else if (button_value == &apos;0&apos; &amp;&amp; length == 0)&#123;   //0不能作为表达式开头</span><br><span class="line">                        zero_flag = false;</span><br><span class="line">                    &#125; else &#123;</span><br><span class="line">                        expression_value.push(button_value);</span><br><span class="line">                    &#125;</span><br><span class="line">                &#125;</span><br><span class="line">                if (zero_flag)&#123;</span><br><span class="line">                    expression_show.push(button_value);</span><br><span class="line">                &#125;</span><br><span class="line">                break;</span><br><span class="line">        &#125;</span><br><span class="line"></span><br><span class="line">        if (show_value !== &apos;0&apos;)&#123;     //将表达式数组转换为字符串</span><br><span class="line">            show_value = expression_show.join(&apos;&apos;);</span><br><span class="line">        &#125;</span><br><span class="line"></span><br><span class="line">        if (result_value !== &apos;none&apos;)&#123;  //当有计算结果时，清空输入的数据，并将计算结果显示</span><br><span class="line">            show_value = result_value;</span><br><span class="line">            expression_show.length = 0;</span><br><span class="line">            expression_value.length = 0;</span><br><span class="line">            expression_show.push(result_value);</span><br><span class="line">            expression_value.push(result_value);</span><br><span class="line">        &#125;</span><br><span class="line"></span><br><span class="line">        if (show_value)&#123;   //显示结果</span><br><span class="line">            this.setData(&#123;</span><br><span class="line">              value: show_value</span><br><span class="line">            &#125;);</span><br><span class="line">        &#125;</span><br><span class="line">    &#125;</span><br><span class="line">  &#125;,</span><br></pre></td></tr></table></figure>
+<h2 id="计算表达式"><a href="#计算表达式" class="headerlink" title="计算表达式"></a>计算表达式</h2><p>经过上述的输入处理，用户输完表达式后，我们就可以得到相应的表达式数组。例如用户输入<code>-0.1+(3-0.5)*2</code>，此时ForCustomer的值应该为<code>[&#39;-&#39;,&#39;0&#39;,&#39;.&#39;,&#39;1&#39;,&#39;+&#39;,&#39;(&#39;,&#39;3&#39;,&#39;-&#39;,&#39;0&#39;,&#39;.&#39;,&#39;5&#39;,&#39;)&#39;,&#39;*&#39;,&#39;2&#39;]</code>，而ForCompute的值应该为<code>[&#39;-0.1&#39;,&#39;+&#39;,&#39;(&#39;,&#39;3&#39;,&#39;-&#39;,&#39;0.5&#39;,&#39;)&#39;,&#39;*&#39;,&#39;2&#39;]</code>。我们计算只需要ForCompute的值。我们主要使用的是<strong>逆波兰算法</strong>，在此过程利用<strong>栈</strong>，先将中缀表达式转换为后缀表达式，再计算后缀表达式的值。该算法作为基本的算法，需要掌握，不清楚的自行百度，这里不再赘述。</p>
+<p><strong>需要注意的是</strong>，微信小程序并没有window框架，所以无法使用JavaScript中的eval()函数来进行计算，只能通过自己写的算法来实现运算功能。</p>
+<p><strong>将处理后的表达式数组传入calculate函数进行计算</strong></p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br><span class="line">43</span><br><span class="line">44</span><br><span class="line">45</span><br><span class="line">46</span><br><span class="line">47</span><br><span class="line">48</span><br><span class="line">49</span><br><span class="line">50</span><br><span class="line">51</span><br><span class="line">52</span><br><span class="line">53</span><br><span class="line">54</span><br><span class="line">55</span><br><span class="line">56</span><br><span class="line">57</span><br><span class="line">58</span><br><span class="line">59</span><br><span class="line">60</span><br><span class="line">61</span><br><span class="line">62</span><br><span class="line">63</span><br><span class="line">64</span><br><span class="line">65</span><br><span class="line">66</span><br><span class="line">67</span><br><span class="line">68</span><br><span class="line">69</span><br><span class="line">70</span><br><span class="line">71</span><br><span class="line">72</span><br><span class="line">73</span><br><span class="line">74</span><br><span class="line">75</span><br><span class="line">76</span><br><span class="line">77</span><br><span class="line">78</span><br></pre></td><td class="code"><pre><span class="line">calculate: function(expressions)&#123;</span><br><span class="line">      var transfer_stack = [],   //用于中缀表达式转后缀表达式</span><br><span class="line">          temp_stack = [],       //用于存储中缀表达式</span><br><span class="line">          calculate_stack = [],  //用于计算中缀表达式</span><br><span class="line">          result = 0,           //计算的结果</span><br><span class="line">          priority_table = &#123;     //符号优先级表</span><br><span class="line">              &apos;*&apos; : 2,</span><br><span class="line">              &apos;/&apos; : 2,</span><br><span class="line">              &apos;+&apos; : 1,</span><br><span class="line">              &apos;-&apos; : 1,</span><br><span class="line">              &apos;(&apos; : 0,</span><br><span class="line">              &apos;)&apos; : 3</span><br><span class="line">          &#125;;</span><br><span class="line">      /*</span><br><span class="line">        将中缀表达式转换为后缀表达式</span><br><span class="line">      */</span><br><span class="line">      for (var value in expressions)&#123;   </span><br><span class="line">        if (!isNaN(expressions[value]))&#123;  //如果是数字，直接输出</span><br><span class="line">            temp_stack.push(expressions[value]);</span><br><span class="line">          &#125; else &#123;</span><br><span class="line">              if (expressions[value] == &apos;)&apos;)&#123;    //如果是右括号，将左括号之后的项目全部出栈</span><br><span class="line">                  while(transfer_stack.length != 0 &amp;&amp; transfer_stack[transfer_stack.length-1] != &apos;(&apos;)&#123;</span><br><span class="line">                      temp_stack.push(transfer_stack.pop());</span><br><span class="line">                  &#125;</span><br><span class="line">                  transfer_stack.pop();</span><br><span class="line">              &#125; else if (expressions[value] != &apos;(&apos; &amp;&amp; priority_table[expressions[value]] &lt;= priority_table[transfer_stack[transfer_stack.length-1]]) &#123;  //如果符号不是左括号，且符号优先级不大于栈顶项目，则依次出栈，直到项目全部出栈或者栈顶项目优先级小于当前符号</span><br><span class="line">                  temp_stack.push(transfer_stack.pop());   </span><br><span class="line">                  while (priority_table[expressions[value]] &lt;= priority_table[transfer_stack[transfer_stack.length - 1]])&#123;</span><br><span class="line">                      temp_stack.push(transfer_stack.pop());</span><br><span class="line">                  &#125;</span><br><span class="line">                  transfer_stack.push(expressions[value]);</span><br><span class="line">              &#125; else &#123; //如果符号是左括号，或者优先级高于栈顶元素，则进栈</span><br><span class="line">                transfer_stack.push(expressions[value]);</span><br><span class="line">              &#125;</span><br><span class="line">          &#125;</span><br><span class="line">      &#125;</span><br><span class="line">      while(transfer_stack.length &gt; 0)&#123;  //将剩余的项目全部出栈</span><br><span class="line">          temp_stack.push(transfer_stack.pop());</span><br><span class="line">      &#125;</span><br><span class="line"></span><br><span class="line">      /*</span><br><span class="line">      计算后缀表达式</span><br><span class="line">      */</span><br><span class="line"></span><br><span class="line">      for (value in temp_stack)&#123; </span><br><span class="line">          if ( !isNaN(temp_stack[value]))&#123;  //如果是数字直接进栈</span><br><span class="line">              calculate_stack.push(temp_stack[value]);</span><br><span class="line">          &#125;else&#123;   //如果是符号，则将栈顶两元素出栈，计算后，再将结果入栈</span><br><span class="line">              var num_1 = Number(calculate_stack.pop()),</span><br><span class="line">                  num_2 = Number(calculate_stack.pop());</span><br><span class="line">              switch (temp_stack[value])&#123;</span><br><span class="line">                case &apos;+&apos;:</span><br><span class="line">                    result = num_1 + num_2;</span><br><span class="line">                    break;</span><br><span class="line">                case &apos;-&apos;:</span><br><span class="line">                    result = num_2 - num_1;</span><br><span class="line">                    break;</span><br><span class="line">                case &apos;*&apos;:</span><br><span class="line">                    result = num_2 * num_1;</span><br><span class="line">                    break;</span><br><span class="line">                default:</span><br><span class="line">                  if (num_1 == 0)&#123;</span><br><span class="line">                      result = &apos;zero&apos;;</span><br><span class="line">                  &#125;else&#123;</span><br><span class="line">                      result = num_2 / num_1;</span><br><span class="line">                  &#125;</span><br><span class="line">                  break; </span><br><span class="line">              &#125;</span><br><span class="line">              calculate_stack.push(result);</span><br><span class="line">          &#125;</span><br><span class="line"></span><br><span class="line">          if (isNaN(result))&#123;  //如果出现错误，则退出循环</span><br><span class="line">              break;</span><br><span class="line">          &#125;</span><br><span class="line">      &#125;</span><br><span class="line">      result = calculate_stack.pop();  //取出最终计算结果</span><br><span class="line">      return result;</span><br><span class="line">  &#125;,</span><br></pre></td></tr></table></figure>
+<p>计算完成后，就返回result结果给clickButton函数，显示给用户，并把将存储表达式两个数组清空，将结果存入后，等待用户后续计算的输入，一次完整的计算过程就已经完成了。</p>
+
+            <div class="clearfix"></div>
+            <hr class="nogutter">
+        </div>
+        <nav class="m-pagination col-md-8 col-md-offset-2 col-sm-24" role="pagination">
+    
+    
+    <a class="pull-right" href="/2018/07/24/使用微信小程序开发逆波兰计算器——整体介绍/">
+        使用微信小程序开发逆波兰计算器——整体介绍 →
+    </a>
+    
+</nav>
+
+        <div class="col-md-8 col-md-offset-2 col-sm-24"><script type="text/javascript">
+  /**
+   * 搜狐畅言
+   */
+
+  /*
+  document.write('<div id="SOHUCS" sid="' + window.location.pathname.slice(1) + '" ></div>');
+
+  window.onload = function () {
+    (function () {
+      var appid = 'cytXXXX';
+      var conf = 'prod_xxxxxxxxxxxxxxxxx';
+      var width = window.innerWidth || document.documentElement.clientWidth;
+      var loadJs = function (d, a, id) {
+        var c = document.getElementsByTagName("head")[0] || document.head || document.documentElement;
+        var b = document.createElement("script");
+        b.setAttribute("type", "text/javascript");
+        b.setAttribute("charset", "UTF-8");
+        b.setAttribute("src", d);
+        if (id) {
+          b.setAttribute("id", id);
+        }
+        if (typeof a === "function") {
+          if (window.attachEvent) {
+            b.onreadystatechange = function () {
+              var e = b.readyState;
+              if (e === "loaded" || e === "complete") {
+                b.onreadystatechange = null;
+                a()
+              }
+            }
+          } else {
+            b.onload = a
+          }
+        }
+        c.appendChild(b)
+      };
+
+      loadJs("https://changyan.sohu.com/upload/changyan.js", function () {
+        window.changyan.api.config({
+          appid: appid,
+          conf: conf
+        })
+      });
+    })();
+  }
+  */
+
+</script>
+</div>
+    </div>
+</section>
+
+
+      
+<!-- ============================ Footer =========================== -->
+
+<footer>
+    <div class="container">
+            <div class="copy">
+                <p>
+                    &copy; 2014<script>new Date().getFullYear()>2010&&document.write("-"+new Date().getFullYear());</script>, Content By Jasper-le. All Rights Reserved.
+                </p>
+                <p>Theme By <a href="//go.kieran.top" style="color: #767D84">Kieran</a></p>
+            </div>
+            <div class="social">
+                <ul>
+                    
+                    <li><a href="https://github.com/" title="Github" target="_blank"><i class="icon-github"></i></a>&nbsp;</li>
+                    
+                    
+                    <li><a href="https://twitter.com/" title="Twitter" target="_blank"><i class="icon-twitter"></i></a>&nbsp;</li>
+                    
+                    
+                    <li><a href="https://www.facebook.com/" title="Facebook" target="_blank"><i class="icon-facebook"></i></a>&nbsp;</li>
+                    
+                    
+                    <li><a href="https://google.com/" title="Google-Plus" target="_blank"><i class="icon-google-plus"></i></a>&nbsp;</li>
+                    
+                    
+                    <li><a href="http://weibo.com/" title="Sina-Weibo" target="_blank"><i class="icon-sina-weibo"></i></a>&nbsp;</li>
+                    
+                </ul>
+            </div>
+            <div class="clearfix"> </div>
+        </div>
+</footer>
+
+<!-- ============================ END Footer =========================== -->
+      <!-- Load our scripts -->
+<!-- Resizable 'on-demand' full-height hero -->
+<script type="text/javascript">
+    var resizeHero = function () {
+        var hero = $(".cover,.heightblock"),
+            window1 = $(window);
+        hero.css({
+            "height": window1.height()
+        });
+    };
+
+    resizeHero();
+
+    $(window).resize(function () {
+        resizeHero();
+    });
+</script>
+<script src="/js/plugins.min.js"></script><!-- Bootstrap core and concatenated plugins always load here -->
+<script src="/js/scripts.js"></script><!-- Theme scripts -->
+
+
+<link rel="stylesheet" href="/fancybox/jquery.fancybox.css" media="screen" type="text/css">
+<script src="/fancybox/jquery.fancybox.pack.js"></script>
+<script type="text/javascript">
+$('#intro').find('img').each(function(){
+  var alt = this.alt;
+
+  if (alt){
+    $(this).after('<span class="caption" style="display:none">' + alt + '</span>');
+  }
+
+  $(this).wrap('<a href="' + this.src + '" title="' + alt + '" class="fancybox" rel="gallery" />');
+});
+(function($){
+  $('.fancybox').fancybox();
+})(jQuery);
+</script>
+
+
+
+      
+</body>
+</html>
